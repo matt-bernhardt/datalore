@@ -1,0 +1,1 @@
+In hopes of participating in the Datalore hackathon at the MIT Media Lab in January 2015, I'm preparing a dataset of open access articles from the DSpace@MIT repository. The code in ths repository supports those efforts.
