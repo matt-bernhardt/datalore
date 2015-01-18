@@ -17,7 +17,7 @@ def main():
   log.write('Connection to database\n')
 
   # output
-  output = open('export_articles.json','w')
+  output = open('export_hackathon.json','w')
 
   articles = []
 

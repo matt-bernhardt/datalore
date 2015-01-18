@@ -15,10 +15,10 @@ def main():
   # Connect to database
   client = pymongo.MongoClient('mongodb://localhost:27017')
   db = client.openaccess
-  collection = db.articles
+  collection = db.hackathon
 
   # get list of articles
-  articles = collection.find()
+  articles = collection.find({"rights":{"$exists":False}})
   
   i = 0
 
@@ -124,7 +124,7 @@ def main():
     log.write("\n")
     i = i + 1
 
-    time.sleep(1)
+    time.sleep(0.5)
 
   print('Finished!')
 
