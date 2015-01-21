@@ -17,7 +17,7 @@ def main():
   collection = db.hackathon
 
   # get list of articles
-  articles = collection.find()
+  articles = collection.find({"issn":{"$exists":False}})
   
   i = 0
 
