@@ -17,7 +17,8 @@ def main():
   collection = db.hackathon
 
   # get list of articles
-  articles = collection.find({"issn":{"$exists":False}})
+  articles = collection.find()
+  # articles = collection.find({"abstract":{"$exists":False}})
   
   i = 0
 
@@ -33,32 +34,34 @@ def main():
     # element - parsed XML, returns element
     element = ET.fromstring(r.text.encode('ascii','xmlcharrefreplace'))
 
-    departments = []
-    issn = []
+    subjects = []
+    abstract = ""
 
     for child in element.iter():
-      log.write("    " + str(child.tag) + "\n")
-      log.write("      " + str(child.attrib) + "\n")
-      log.write("      " + str(type(child.attrib)) + "\n")
+      abstract = ""
+      # log.write("    " + str(child.tag) + "\n")
+      # log.write("      " + str(child.attrib) + "\n")
+      # log.write("      " + str(type(child.attrib)) + "\n")
       if child.text != None:
         log.write("      " + str(child.text.encode('ascii','xmlcharrefreplace')) + "\n")
 
-      if "qualifier" in child.attrib and child.attrib['qualifier'] == 'department':
-        departments.append(str(child.text.encode('ascii','xmlcharrefreplace')))
-      elif "qualifier" in child.attrib and child.attrib['qualifier'] == 'issn':
-        issn.append(str(child.text.encode('ascii','xmlcharrefreplace')))
+      # if "element" in child.attrib and child.attrib['element'] == 'subject':
+      #   log.write("      " + str(child.text.encode('ascii','xmlcharrefreplace')))
+      #   subjects.append(str(child.text.encode('ascii','xmlcharrefreplace')))
 
-    item["departments"] = departments
-    log.write("      Departments: " + str(departments) + "\n")
-    item["issn"] = issn
-    log.write("      ISSN: " + str(issn) + "\n")
+      if "element" in child.attrib and child.attrib['element'] == 'description' and "qualifier" in child.attrib and child.attrib['qualifier'] == "abstract" and child.text != None:
+        log.write("      " + str(child.text.encode('ascii','xmlcharrefreplace')))
+        abstract = str(child.text.encode('ascii','xmlcharrefreplace'))
+
+    item["abstract"] = abstract
+    # log.write("      Subjects: " + str(subjects) + "\n")
 
     collection.update({"handle":item["handle"]},item,True)
 
     log.write("\n")
     i = i + 1
 
-    time.sleep(0.5)
+    time.sleep(0.2)
 
   print('Finished!')
 
