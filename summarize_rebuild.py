@@ -1,4 +1,6 @@
-# This script parses each document in the rebuilt articles collection, counting the number of times that any given field appears
+# This script parses each document in the rebuilt articles collection, counting
+# the number of times that any given field appears. It then dumps the output
+# into an extremely inelegant text file that needs to be processed in 
 
 # imports
 import json
@@ -19,15 +21,16 @@ def main():
   log.write('Connection to database\n')
 
   # output
-  output = open('summarize_rebuild.txt','w')
+  output = open('rebuild/summarize_rebuild.csv','w')
 
+  # initialize entities
   articles = []
   fields = []
   fieldCounts = []
   i = 0
-
   j = 0
 
+  # Iterate over each record in the collection
   for record in collection.find():
     # articles.append(record)
     log.write(str(i) + " " + str(record["dc-identifier-uri"]) + "\n")
@@ -42,8 +45,6 @@ def main():
       exists = False
       for found in fields:
         # Loop over what we've already found
-
-        # log.write(str(thing) + " " + str(found) + "\n")
 
         # compare 
         if found == thing:
@@ -60,8 +61,12 @@ def main():
 
     i = i + 1
 
-  output.write(dumps(fields))
-  output.write(dumps(fieldCounts))
+  # Output results into a quick CSV file.
+  # This is a mess.
+  i = 0
+  for item in fields:
+    output.write(str(fields[i]) + "," + str(fieldCounts[i]) + "\n")
+    i = i + 1
 
   print('Finished!')
 
