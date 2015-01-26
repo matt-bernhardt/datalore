@@ -1,0 +1,31 @@
+{
+        "_id" : ObjectId("54c33f4669929426b83d73ef"),
+        "dc-identifier-mitlicense" : "OPEN_ACCESS_POLICY",
+        "dc-contributor-mitauthor" : "Ritvo, Harriet",
+        "dc-identifier-uri" : "http://hdl.handle.net/1721.1/50239",
+        "dc-date-available" : "2009-12-21T15:48:01Z",
+        "dc-title" : "Endless Forms",
+        "dc-relation-journal" : "Science",
+        "dc-contributor-author" : "Ritvo, Harriet",
+        "dc-identifier-issn" : [
+                "1095-9203",
+                "0036-8075"
+        ],
+        "dc-source" : "Harriet Ritvo",
+        "dc-type" : "Preprint",
+        "dc-date-issued" : "2009-03",
+        "dc-date-accessioned" : "2009-12-21T15:48:01Z",
+        "dc-contributor-approver" : "Ritvo, Harriet",
+        "dc-language-iso" : "en_US",
+        "dc-contributor-department" : "Massachusetts Institute of Technology. Department of Humanities",
+        "dc-title-alternative" : "EXHIBITIONS: ART AND EVOLUTION: The Darwinian Eye",
+        "dc-relation-isversionof" : "http://dx.doi.org/10.1126/science.1172248",
+        "dc-publisher" : "American Association for the Advancement of Science",
+        "dc-rights" : "Creative Commons Attribution-Noncommercial-Share Alike",
+        "dc-rights-uri" : "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "dc-type-uri" : "http://purl.org/eprint/type/BookReview",
+        "dc-eprint-version" : "Original manuscript",
+        "dc-identifier-citation" : "Ritvo, Harriet. &#8220;EXHIBITIONS: ART AND EVOLUTION: The Darwinian Eye.&#8221; Sci
+ence 323.5922 (2009): 1673-1674.",
+        "dspace-orderedauthors" : "Ritvo, H."
+}
