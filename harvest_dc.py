@@ -1,3 +1,18 @@
+# This script takes a list of articles (expressed as handles) and extracts metadata for each 
+# via a METS document. For DSpace@MIT, to see the METS record for an article you connect to a 
+# URL such as http://dspace.mit.edu/metadata/handle/1721.1/54729/mets.xml
+#
+# Within this document, there are a number of dim:field elements which contain the catalogued
+# metadata about that article. This script scans for those tags and stores each discovered
+# value in a Mongo database.
+# 
+# A prerequisite to running this script is to have that list of article handles already stored
+# in Mongo - this script just takes that list and adds the metadata to it.
+#
+# There is a reference here to a db.hackathon collection in Mongo - this can probably be
+# removed by anyone using this in the future. For the hackathon, I had to redo this harvest
+# after a failed first attempt.
+
 # imports
 import json
 import pymongo
@@ -18,29 +33,18 @@ def main():
   collection = db.hackathon
   rebuild = db.rebuild
 
-  # get list of identifiers
-  # http://dspace.mit.edu/handle/1721.1/53727?show=full
-  # //*[@id="aspect_artifactbrowser_ItemViewer_div_item-view"]/table
-  # Keys: //*[@id="aspect_artifactbrowser_ItemViewer_div_item-view"]/table/tbody/tr[1]/td[1]
-  # Values: //*[@id="aspect_artifactbrowser_ItemViewer_div_item-view"]/table/tbody/tr[1]/td[2]
-
-  # http://dspace.mit.edu/metadata/handle/1721.1/54729/mets.xml
-  # dim:field . mdschema . element . qualifier
-
-  # articles = collection.find({"rebuilt":{"$exists":False}}).limit(5)
   articles = collection.find()
 
   i = 0
   for item in articles:
 
     # Log the item we're working with
-    print "!!!" + str(i) + " " + item["handle"]
+    print str(i) + " " + item["handle"]
     log.write(str(i) + " " + item["handle"] + "\n")
 
     # Build URL to scrape
     # http://dspace.mit.edu/metadata/handle/1721.1/54729/mets.xml
     url = "http://dspace.mit.edu/metadata" + item["handle"] + "/mets.xml"
-    # log.write("  " + str(url) + "\n")
 
     # Grab returned document
     r = requests.get(url)
@@ -53,6 +57,8 @@ def main():
 
     # Loop over every item in this element
     for child in element.iter():
+
+      # Dublin core metadata is expressed in this HTML using the following attributes:
       # dim:field . mdschema . element . qualifier
 
       # make sure this item isn't empty/null, and this is a dim:field tag
@@ -80,7 +86,6 @@ def main():
           newitem[key] = value
 
     # Store rebuilt item in new collection
-    # print str(newitem)
     rebuild.insert(newitem)
 
     # Mark original as rebuilt
@@ -89,6 +94,7 @@ def main():
 
     # Increment counter, wait before grabbing next item
     i = i + 1
+    # The sleep timer is necessary so the DSpace@MIT admins don't block access to your scraper
     time.sleep(0.2)
 
   print('Finished!')
